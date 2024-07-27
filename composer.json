@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "attrixtech/laravel-icons": "^1.2",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.1",
         "laravel/sanctum": "^4.0",
@@ -14,6 +15,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laravel-lang/common": "^6.4",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
