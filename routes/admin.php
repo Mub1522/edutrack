@@ -8,11 +8,10 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    'role:admin'
 ])->group(function () {
-    Route::middleware('role:admin')->group(function () {
-        Route::resource('/estudiantes', StudentController::class)
-            ->names('students');
-        Route::resource('/acudientes', GuardianController::class)
-            ->names('guardians');
-    });
+    Route::resource('/estudiantes', StudentController::class)
+        ->names('students');
+    Route::resource('/acudientes', GuardianController::class)
+        ->names('guardians');
 });

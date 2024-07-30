@@ -21,7 +21,7 @@ class StudentFactory extends Factory
             'uuid' => (string) Str::uuid(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'birthday' => now(),
+            'birthdate' => now(),
         ];
     }
 }

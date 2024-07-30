@@ -9,7 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <a href="{{ route('admin.students.create') }}">
-                    <x-button><x-icons.plus class="mr-2" />{{ __('Add') }}</x-button>
+                    <x-button
+                        class="bg-yellow-400 hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-900 focus:ring-yellow-800"><x-icons.plus
+                            class="mr-2" />{{ __('Add') }}</x-button>
                 </a>
                 <a href="{{ route('admin.guardians.index') }}">
                     <x-button><x-icons.users class="mr-2" />{{ __('Guardians') }}</x-button>
@@ -37,18 +39,18 @@
                                         {{ __('Status') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        {{ __('Birthday') }}
+                                        {{ __('Birthdate') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        {{ __('Created at') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        {{ __('Actions') }}
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($students as $student)
-                                    @php
-                                        $gravatarUrl =
-                                            'https://www.gravatar.com/avatar/' .
-                                            md5(strtolower(trim($student->email))) .
-                                            '?s=200';
-                                    @endphp
                                     <tr
                                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td class="px-6 py-4">
@@ -58,8 +60,9 @@
                                         </td>
                                         <th scope="row"
                                             class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <img class="w-10 h-10 rounded-full" src="{{ $gravatarUrl }}"
-                                                alt="Jese image">
+                                            <img class="w-10 h-10 rounded-full"
+                                                src="{{ asset('storage/' . ($student->image ?? 'students/avatar.jpeg')) }}"
+                                                alt="avatar">
                                             <div class="ps-3">
                                                 <div class="text-base font-semibold">{{ $student->name }}</div>
                                                 <div class="font-normal text-gray-500">{{ $student->email }}</div>
@@ -79,7 +82,28 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center">
-                                                <div class="font-normal text-gray-500">{{ $student->birthday }}</div>
+                                                <div class="font-normal text-gray-500">{{ $student->birthdate }}</div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div class="font-normal text-gray-500">{{ $student->created_at }}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <a href="{{ route('admin.students.edit', $student->id) }}">
+                                                    <x-button
+                                                        class="bg-yellow-400 hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-900 focus:ring-yellow-800">
+                                                        <x-icons.pencil />
+                                                    </x-button>
+                                                </a>
+                                                <a href="{{ route('admin.students.destroy', $student->id) }}">
+                                                    <x-button>
+                                                        <x-icons.trash />
+                                                    </x-button>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

@@ -373,5 +373,13 @@
     "Student": "Estudiante",
     "Guardians": "Acudientes",
     "Add student": "Añadir estudiante",
-    "Select date": "Seleccionar fecha"
+    "Select date": "Seleccionar fecha",
+    "Birthdate": "Fecha de nacimiento",
+    "Student created successfully": "Estudiante creado correctamente",
+    "Edit student": "Editar estudiante",
+    "Guardian": "Acudiente",
+    "Created at": "Creado en",
+    "Add guardian": "Añadir acudiente",
+    "Guardian created successfully": "Acudiente creado correctamente",
+    "Edit guardian": "Editar acudiente"
 }

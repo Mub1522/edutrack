@@ -13,7 +13,7 @@ class GuardianController extends Controller
      */
     public function index()
     {
-        $guardians = Guardian::paginate(15);
+        $guardians = Guardian::latest()->paginate(15);
         return view('admin.guardians.index', compact('guardians'));
     }
 
@@ -22,7 +22,7 @@ class GuardianController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.guardians.create');
     }
 
     /**
@@ -30,15 +30,36 @@ class GuardianController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate(
+            [
+                'name' => 'required',
+                'email' => 'required|email|unique:guardians',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ]
+        );
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $guardian = Guardian::create([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image->storeAs('public/guardians', $image->hashName());
+            $guardian->image = 'guardians/' . $image->hashName();
+            $guardian->save();
+        }
+
+        session()->flash('swal', [
+            'position' => 'top-end',
+            'icon' => 'success',
+            'title' => __('Guardian created successfully'),
+            'timer' => 3000,
+            'toast' => true,
+            'showConfirmButton' => false,
+        ]);
+
+        return redirect()->route('admin.guardians.index');
     }
 
     /**
@@ -46,7 +67,8 @@ class GuardianController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $guardian = Guardian::findOrFail($id);
+        return view('admin.guardians.edit', compact('guardian'));
     }
 
     /**
@@ -54,7 +76,7 @@ class GuardianController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\admin\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
@@ -13,7 +15,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::paginate(15);
+        $students = Student::latest()->paginate(15);
         return view('admin.students.index', compact('students'));
     }
 
@@ -30,21 +32,43 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:students',
-            'birthday' => 'required|date',
-        ]);
-        
-        dd($request->all());
-    }
+        $request->validate(
+            [
+                'name' => 'required',
+                'email' => 'required|email|unique:students',
+                'birthdate' => 'required|date_format:m/d/Y',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ],
+            [
+                'birthdate.required' => 'La fecha de nacimiento es obligatoria',
+                'birthdate.date_format' => 'La fecha de nacimiento no es válida',
+            ]
+        );
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $birthdate = Carbon::createFromFormat('m/d/Y', $request->birthdate)->format('Y-m-d');
+        $student = Student::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'birthdate' => $birthdate,
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image->storeAs('public/students', $image->hashName());
+            $student->image = 'students/' . $image->hashName();
+            $student->save();
+        }
+
+        session()->flash('swal', [
+            'position' => 'top-end',
+            'icon' => 'success',
+            'title' => __('Student created successfully'),
+            'timer' => 3000,
+            'toast' => true,
+            'showConfirmButton' => false,
+        ]);
+
+        return redirect()->route('admin.students.index');
     }
 
     /**
@@ -52,7 +76,8 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return view('admin.students.edit', compact('student'));
     }
 
     /**
@@ -60,7 +85,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

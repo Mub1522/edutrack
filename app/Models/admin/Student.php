@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'birthday'];
+    protected $fillable = ['name', 'email', 'birthdate', 'image'];
 
     public function guardians()
     {

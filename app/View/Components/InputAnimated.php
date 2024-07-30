@@ -13,16 +13,17 @@ class InputAnimated extends Component
     public $required;
     public $autocomplete;
     public $label;
+    public $value;
 
-    public function __construct($type = '', $name, $id = '', $placeholder = '', $required = false, $autocomplete = '', $label = '')
+    public function __construct($type = '', $name, $id = '', $placeholder = '', $required = false, $label = '', $value = '')
     {
         $this->type = $type;
         $this->name = $name;
         $this->id = $id;
         $this->placeholder = $placeholder;
         $this->required = $required;
-        $this->autocomplete = $autocomplete;
         $this->label = $label;
+        $this->value = $value;
     }
 
     public function render()

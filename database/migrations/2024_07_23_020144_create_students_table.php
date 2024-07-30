@@ -16,8 +16,9 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('email')->nullable()->unique();
+            $table->string('image')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->date('birthday')->nullable();
+            $table->date('birthdate')->nullable();
             $table->timestamps();
         });
     }
